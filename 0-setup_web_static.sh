@@ -17,23 +17,23 @@ fi
 
 # Create necessary directories if they don't exist
 if [ ! -d "/data/" ]; then
-	mkdir /data/
+	mkdir -p /data/
 fi
 
 if [ ! -d "/data/web_static/" ]; then
-	mkdir /data/web_static/
+	mkdir -p /data/web_static/
 fi
 
 if [ ! -d "/data/web_static/releases/" ]; then
-	mkdir /data/web_static/releases/
+	mkdir -p/data/web_static/releases/
 fi
 
 if [ ! -d "/data/web_static/shared/" ]; then
-	mkdir /data/web_static/shared/
+	mkdir -p /data/web_static/shared/
 fi
 
 if [ ! -d "/data/web_static/releases/test/" ]; then
-	mkdir /data/web_static/releases/test/
+	mkdir -p /data/web_static/releases/test/
 fi
 
 # Create a fake HTML file for testing
@@ -51,6 +51,9 @@ sudo chown -R ubuntu:ubuntu /data/
 
 # Update Nginx configuration to serve web_static content
 sudo sed -i '/location \/{/a\location/hbnb_static{\nalias'$web_static_path';\n}\n' $nginx_conf
+
+# Test Nginx configuration
+sudo nginx -t
 
 # Restart Nginx
 sudo service nginx restart
