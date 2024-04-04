@@ -7,13 +7,13 @@ current_link="/data/web_static/current"
 target_folder="/data/web_static/releases/test"
 
 # Define variables
-nginx_conf="/etc/nginx/sites-available/default"  # Modify this if your config file is elsewhere
+nginx_conf="/etc/nginx/sites-available/default"
 web_static_path="/data/web_static/current"
 
 # Check if Nginx is installed, if not, install it
-if ! [ -x "$(command -v nginx)" ]; then
-	sudo apt-get update
-	sudo apt-get install nginx -y
+if ! command -v nginx &> /dev/null; then
+	sudo apt update
+	sudo apt install nginx -y
 fi
 
 # Create necessary directories if they don't exist
