@@ -51,7 +51,7 @@ ln -s "$target_folder" "$current_link"
 sudo chown -R ubuntu:ubuntu /data/
 
 # Update Nginx configuration to serve web_static content
-sudo sed -i '/location \/{/a\location/hbnb_static{\nalias'$web_static_path'/;\n}\n' $nginx_conf
+sudo sed -i '/location \/{/a\location/hbnb_static{\nalias'$web_static_path';\n}\n' $nginx_conf
 
 # Restart Nginx
 sudo service nginx restart
