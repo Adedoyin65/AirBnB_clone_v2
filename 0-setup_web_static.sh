@@ -5,49 +5,32 @@
 # Define the paths
 current_link="/data/web_static/current"
 target_folder="/data/web_static/releases/test"
-
-# Define variables
 nginx_conf="/etc/nginx/sites-available/default"
 web_static_path="/data/web_static/current"
 
 # Check if Nginx is installed, if not, install it
 if ! command -v nginx &> /dev/null; then
 	sudo apt update
-	cat sudo apt install nginx -y
+	sudo apt install nginx -y
 fi
 
-# Create necessary directories if they don't exist
-if [ ! -d "/data/" ]; then
-	sudo mkdir /data/
-fi
-if [ ! -d "/data/web_static/" ]; then
-	sudo mkdir /data/web_static/
-fi
-if [ ! -d "/data/web_static/releases/" ]; then
-	sudo mkdir /data/web_static/releases/
-fi
-if [ ! -d "/data/web_static/shared/" ]; then
-	sudo mkdir /data/web_static/shared/
-fi
-if [ ! -d "/data/web_static/releases/test/" ]; then
-	sudo mkdir /data/web_static/releases/test/
-fi
+# Create necessary directories using mkdir -p
+sudo mkdir -p /data/web_static/{releases/test,shared}
+sudo chown -R ubuntu:ubuntu /data/
 
 # Create a fake HTML file for testing
-echo "<html><body>Testing Nginx deployment</body></html>" | sudo nano /data/web_static/releases/test/index.html
+echo "<html><body>Testing Nginx deployment</body></html>" | sudo tee /data/web_static/releases/test/index.html
 
 # Check if the symbolic link exists, if yes, delete it
 if [ -L "$current_link" ]; then
-	rm "$current_link"
+	sudo rm "$current_link"
 fi
 
 # Create the symbolic link
-ln -s "$target_folder" "$current_link"
-
-sudo chown -R ubuntu:ubuntu /data/
+sudo ln -s "$target_folder" "$current_link"
 
 # Update Nginx configuration to serve web_static content
-sudo sed -i '/location \/{/a\location/hbnb_static{\nalias'$web_static_path'/;\n}\n' $nginx_conf
+sudo sed -i "/server_name _;/a \\n\tlocation /hbnb_static {\n\t\talias $web_static_path/;\n\t}\n" "$nginx_conf"
 
 # Restart Nginx
 sudo service nginx restart
