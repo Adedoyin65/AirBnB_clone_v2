@@ -45,7 +45,7 @@ if [ -L "$current_link" ]; then
 fi
 
 # Create the symbolic link
-ln -s "$target_folder" "$current_link"
+sudo ln -s "$target_folder" "$current_link"
 
 sudo chown -R ubuntu:ubuntu /data/
 
