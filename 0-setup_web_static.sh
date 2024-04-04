@@ -1,6 +1,17 @@
 #!/usr/bin/env bash
 # A bash script that sets up your web servers for the deployment
 # of web_static
+
+# Define the paths
+current_link="/data/web_static/current"
+target_folder="/data/web_static/releases/test"
+
+# Define variables
+nginx_conf="/etc/nginx/sites-available/default"  # Modify this if your config file is elsewhere
+web_static_path="/data/web_static/current"
+nginx_error_log="/var/log/nginx/error.log"
+nginx_access_log="/var/log/nginx/access.log"
+
 # Check if Nginx is installed, if not, install it
 if ! [ -x "$(command -v nginx)" ]; then
 	sudo apt-get update
@@ -8,18 +19,40 @@ if ! [ -x "$(command -v nginx)" ]; then
 fi
 
 # Create necessary directories if they don't exist
-sudo mkdir -p /data/web_static/{releases/test,shared}
-sudo chown -R ubuntu:ubuntu /data/
+if [ ! -d "/data/" ]; then
+	mkdir /data/
+fi
+if [ ! -d "/data/web_static/" ]; then
+	mkdir /data/web_static/
+fi
+if [ ! -d "/data/web_static/releases/" ]; then
+	mkdir /data/web_static/releases/
+fi
+if [ ! -d "/data/web_static/shared/" ]; then
+	mkdir /data/web_static/shared/
+fi
+if [ ! -d "/data/web_static/releases/test/" ]; then
+	mkdir /data/web_static/releases/test/
+fi
 
 # Create a fake HTML file for testing
-echo "<html><body>Testing Nginx deployment</body></html>" | sudo tee /data/web_static/releases/test/index.html
+echo "<html><body>Testing Nginx deployment</body></html>" | sudo nano /data/web_static/releases/test/index.html
 
-# Create or recreate symbolic link
-sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
+# Define the paths
+current_link="/data/web_static/current"
+target_folder="/data/web_static/releases/test"
+# Check if the symbolic link exists, if yes, delete it
+if [ -L "$current_link" ]; then
+	rm "$current_link"
+fi
+
+# Create the symbolic link
+ln -s "$target_folder" "$current_link"
+
+sudo chown -R ubuntu:ubuntu /data/
 
 # Update Nginx configuration to serve web_static content
-nginx_config_file="/etc/nginx/sites-available/default"
-sudo sed -i '/^server_name _;/a \\n\tlocation /hbnb_static {\n\t\talias /data/web_static/current/;\n\t}\n' "$nginx_config_file"
+sudo sed -i '/location \/{/a\location /hbnb_static{\nalias '$web_static_path';\n}\n' $nginx_conf
 
 # Restart Nginx
 sudo service nginx restart
