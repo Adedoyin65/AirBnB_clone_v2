@@ -23,7 +23,7 @@ echo "<html><body>Testing Nginx deployment</body></html>" | sudo tee /data/web_s
 
 # Check if the symbolic link exists, if yes, delete it
 if [ -L "$current_link" ]; then
-	sudo rm "$current_link"
+	rm "$current_link"
 fi
 
 # Create the symbolic link
