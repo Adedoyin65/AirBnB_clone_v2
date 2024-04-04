@@ -9,8 +9,6 @@ target_folder="/data/web_static/releases/test"
 # Define variables
 nginx_conf="/etc/nginx/sites-available/default"  # Modify this if your config file is elsewhere
 web_static_path="/data/web_static/current"
-nginx_error_log="/var/log/nginx/error.log"
-nginx_access_log="/var/log/nginx/access.log"
 
 # Check if Nginx is installed, if not, install it
 if ! [ -x "$(command -v nginx)" ]; then
