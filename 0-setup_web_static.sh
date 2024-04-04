@@ -13,7 +13,7 @@ web_static_path="/data/web_static/current"
 # Check if Nginx is installed, if not, install it
 if ! command -v nginx &> /dev/null; then
 	sudo apt update
-	sudo apt install nginx -y
+	cat sudo apt install nginx -y
 fi
 
 # Create necessary directories if they don't exist
