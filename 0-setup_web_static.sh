@@ -37,7 +37,7 @@ if [ ! -d "/data/web_static/releases/test/" ]; then
 fi
 
 # Create a fake HTML file for testing
-echo "<html><body>Testing Nginx deployment</body></html>" | sudo nano /data/web_static/releases/test/index.html
+echo "<html><body>Testing Nginx deployment</body></html>" | sudo tee /data/web_static/releases/test/index.html
 
 # Check if the symbolic link exists, if yes, delete it
 if [ -L "$current_link" ]; then
