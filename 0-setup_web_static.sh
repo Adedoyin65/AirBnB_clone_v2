@@ -17,23 +17,23 @@ fi
 
 # Create necessary directories if they don't exist
 if [ ! -d "/data/" ]; then
-	mkdir -p /data/
+	sudo mkdir -p /data/
 fi
 
 if [ ! -d "/data/web_static/" ]; then
-	mkdir -p /data/web_static/
+	sudo mkdir -p /data/web_static/
 fi
 
 if [ ! -d "/data/web_static/releases/" ]; then
-	mkdir -p/data/web_static/releases/
+	sudo mkdir -p/data/web_static/releases/
 fi
 
 if [ ! -d "/data/web_static/shared/" ]; then
-	mkdir -p /data/web_static/shared/
+	sudo mkdir -p /data/web_static/shared/
 fi
 
 if [ ! -d "/data/web_static/releases/test/" ]; then
-	mkdir -p /data/web_static/releases/test/
+	sudo mkdir -p /data/web_static/releases/test/
 fi
 
 # Create a fake HTML file for testing
@@ -41,7 +41,7 @@ echo "<html><body>Testing Nginx deployment</body></html>" | sudo tee /data/web_s
 
 # Check if the symbolic link exists, if yes, delete it
 if [ -L "$current_link" ]; then
-	rm "$current_link"
+	sudo rm "$current_link"
 fi
 
 # Create the symbolic link
