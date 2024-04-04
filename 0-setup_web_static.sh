@@ -36,9 +36,6 @@ fi
 # Create a fake HTML file for testing
 echo "<html><body>Testing Nginx deployment</body></html>" | sudo nano /data/web_static/releases/test/index.html
 
-# Define the paths
-current_link="/data/web_static/current"
-target_folder="/data/web_static/releases/test"
 # Check if the symbolic link exists, if yes, delete it
 if [ -L "$current_link" ]; then
 	rm "$current_link"
