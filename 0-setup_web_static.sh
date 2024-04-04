@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-# A bash script that sets up your web servers for the deployment
-# of web_static
+# A bash script that sets up your web servers for the deployment of web_static
 
 # Define the paths
 current_link="/data/web_static/current"
