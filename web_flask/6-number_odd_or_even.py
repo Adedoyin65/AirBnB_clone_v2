@@ -56,7 +56,7 @@ def number_odd_or_even(n):
     """A function that is called when the
     /number_odd_or_even/<int:n> page is accessed
     """
-    a ='odd' if n % 2 != 0 else 'even'
+    a = 'odd' if n % 2 != 0 else 'even'
     if isinstance(n, int):
         return render_template('6-number_odd_or_even.html', number=n, odd=a)
 
